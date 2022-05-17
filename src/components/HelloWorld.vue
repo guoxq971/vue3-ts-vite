@@ -8,16 +8,16 @@
 
 <script setup>
 // 导入状态仓库
-import {mainStore} from "../store";
+import { mainStore } from '../store';
 // 使普通数据变响应式的函数
-import {storeToRefs} from "pinia";
+import { storeToRefs } from 'pinia';
 // 实例化仓库
 const store = mainStore();
 // 解构并使数据具有响应式
-const {counter} = storeToRefs(store);
+const { counter } = storeToRefs(store);
 
 // 点击 + 1;
-function handleClick() {
+function handleClick () {
   // ref数据这里需要加.value访问
   counter.value++;
 }
