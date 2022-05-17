@@ -1,4 +1,4 @@
-import {defineStore} from 'pinia'
+import { defineStore } from 'pinia';
 
 export interface stateTypes {
   msg: string,
@@ -14,4 +14,4 @@ export const mainStore = defineStore({
   }),
   getters: {},
   actions: {}
-})
+});
