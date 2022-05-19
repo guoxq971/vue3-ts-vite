@@ -40,7 +40,7 @@ module.exports = {
     'func-call-spacing': 1, //要求在函数标识符和其调用之间有空格
     'no-multi-spaces': 2, //禁止使用多个空格
     'no-mixed-spaces-and-tabs': 2, //禁止空格和 tab 的混合缩进
-    'indent': [2, 'tab'], //强制统一缩进
+    'indent': [2, 2], //强制统一缩进
     'quotes': [1, 'single'], //单引号
     'semi': [2, 'always'], //语句强制分号结尾
     // 函数前的空格 const test = async ()=>{}
