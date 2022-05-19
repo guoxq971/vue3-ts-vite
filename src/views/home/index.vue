@@ -1,3 +1,9 @@
+<template>
+  <div class="tw-text-red-500">
+    home
+  </div>
+</template>
+
 <script lang="ts">
 export default {
   setup () {
@@ -6,9 +12,5 @@ export default {
 };
 </script>
 
-<template>
-  home
-</template>
-
-<style scoped>
+<style lang="scss" scoped>
 </style>

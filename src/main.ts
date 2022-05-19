@@ -1,8 +1,8 @@
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
-import "./tailwind.css";
+import './tailwind.css';
 import { createPinia } from 'pinia';
-import router from "./router/index";
+import router from './router/index.ts';
 import { createApp } from 'vue';
 import App from './App.vue';
 
