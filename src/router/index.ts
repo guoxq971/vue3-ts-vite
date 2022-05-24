@@ -3,7 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   {
     path: '/home',
-    component: () => import('../views/home/index.vue')
+    component: () => import('@/views/home/index.vue')
+  },
+  {
+    path: '/test',
+    component: () => import('@/views/test/index.vue')
   },
   // 重定向
   {

@@ -6,18 +6,19 @@
       mode="inline"
       theme="dark"
       :inline-collapsed="collapsed"
+      @click="handlerClick"
     >
-      <a-menu-item key="1">
+      <a-menu-item key="/home">
         <template #icon>
           <PieChartOutlined/>
         </template>
-        <span>Option 1</span>
+        <span>首页</span>
       </a-menu-item>
-      <a-menu-item key="2">
+      <a-menu-item key="/test">
         <template #icon>
           <DesktopOutlined/>
         </template>
-        <span>Option 2</span>
+        <span>测试</span>
       </a-menu-item>
       <a-menu-item key="3">
         <template #icon>
@@ -51,7 +52,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, toRefs, watch } from 'vue';
+import { defineComponent, toRefs, watch } from 'vue';
 import {
   PieChartOutlined,
   MailOutlined,
@@ -61,6 +62,8 @@ import {
 } from '@ant-design/icons-vue';
 import { menuStore } from '@/store/menuStore';
 import { storeToRefs } from 'pinia';
+import { MenuProps } from 'ant-design-vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   components: {
@@ -72,19 +75,24 @@ export default defineComponent({
   },
   setup () {
     const store = menuStore();
+    const router = useRouter();
     let {
       collapsed,
       openKeys,
       selectedKeys,
       preOpenKeys,
     } = storeToRefs(store);
-
+    const handlerClick: MenuProps['onClick'] = ({ item, key, keyPath }) => {
+      // console.log({ item, key, keyPath });
+      router.push({ path: key + '' });
+    };
 
     return {
       collapsed,
       openKeys,
       selectedKeys,
       preOpenKeys,
+      handlerClick,
     };
   },
 });

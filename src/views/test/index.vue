@@ -1,6 +1,6 @@
 <template>
   <div class="tw-text-red-500">
-    这里是首页
+    这里是测试页面
   </div>
 </template>
 
