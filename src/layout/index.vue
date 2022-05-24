@@ -1,36 +1,33 @@
 <template>
-  <a-button type="primary" @click="showModal">test</a-button>
-  123
-  <testModal ref="testModalRef"/>
+  <div class=" tw-flex tw-flex-col tw-h-screen">
+    <div class="tw-h-[48px] tw-bg-blue-d tw-flex tw-items-center">
+      <collapsedBtn/>
+    </div>
+    <div class="tw-flex tw-flex-1">
+      <div class="tw-max-w-[256px] tw-min-w-[64px]">
+        <AppMenu/>
+      </div>
+      <div class="tw-flex-1 tw-h-full">
+        <div class="tw-h-full">
+          显示区域
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import testModal from './testModal.vue';
+import { defineComponent } from 'vue';
+import AppMenu from './appMenu/menuView.vue';
+import collapsedBtn from './appMenu/collapsedBtn.vue';
 
 export default defineComponent({
   components: {
-    testModal
+    AppMenu,
+    collapsedBtn,
   },
   setup () {
-    document.addEventListener('copy', (event) => {
-      console.log('copy', event);
-      let text: string | undefined = window.getSelection()?.toString();
-      console.log('text', text);
-      if (text){
-        event.preventDefault();
-        event.clipboardData?.setData('text/plain', text + '\r\n这是追加的版权内容');
-      }
-    });
-    const testModalRef = ref<InstanceType<typeof testModal>>();
-    const showModal = () => {
-      console.log(testModal.value);
-      testModalRef.value?.showModal();
-    };
-    return {
-      showModal,
-      testModalRef
-    };
+    return {};
   }
 });
 </script>

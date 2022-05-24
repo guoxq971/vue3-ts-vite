@@ -1,5 +1,5 @@
 module.exports = {
-  printWidth: 120, // 换行字符串阈值
+  printWidth: 200, // 换行字符串阈值
   tabWidth: 2, // 设置工具每一个水平缩进的空格数
   useTabs: false,// 使用tab（制表符）缩进而非空格
   semi: false, // 句末是否加分号

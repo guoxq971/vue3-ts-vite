@@ -3,7 +3,11 @@ module.exports = {
   darkMode: 'media', // or 'media' or 'class'
   prefix: 'tw-',
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'blue-d': '#3b82f6',
+      },
+    },
   },
   variants: {
     extend: {},
