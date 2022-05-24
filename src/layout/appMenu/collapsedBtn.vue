@@ -24,6 +24,7 @@ export default defineComponent({
     } = storeToRefs(store);
 
     watch(() => openKeys.value, (_val, oldVal) => store.setPreOpenKeys(oldVal));
+    watch(() => collapsed.value, (_val, oldVal) => store.setWidth(_val), { immediate: true });
     return {
       collapsed,
       toggleCollapsed: () => store.toggleCollapsed(),
