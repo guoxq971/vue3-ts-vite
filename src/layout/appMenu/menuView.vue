@@ -52,7 +52,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, toRefs, watch } from 'vue';
+import { defineComponent, watch } from 'vue';
 import {
   PieChartOutlined,
   MailOutlined,
@@ -60,10 +60,10 @@ import {
   InboxOutlined,
   AppstoreOutlined,
 } from '@ant-design/icons-vue';
-import { menuStore } from '@/store/menuStore';
+import { menuStore } from '@/store/menuStore.ts';
 import { storeToRefs } from 'pinia';
 import { MenuProps } from 'ant-design-vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   components: {
@@ -76,15 +76,22 @@ export default defineComponent({
   setup () {
     const store = menuStore();
     const router = useRouter();
+    const route = useRoute();
+    const { setSelectKeys } = store;
     let {
       collapsed,
       openKeys,
       selectedKeys,
       preOpenKeys,
     } = storeToRefs(store);
-    const handlerClick: MenuProps['onClick'] = ({ item, key, keyPath }) => {
-      // console.log({ item, key, keyPath });
+    // 监听路由，设置选中的菜单
+    watch(() => route.path, (_val) => {
+      setSelectKeys([_val]);
+    }, { immediate: true });
+    // 菜单的点击
+    const handlerClick: MenuProps['onClick'] = ({ key }) => {
       router.push({ path: key + '' });
+      setSelectKeys([key]);
     };
 
     return {

@@ -5,7 +5,7 @@ import path from 'path';
 
 export default defineConfig({
   resolve: {
-    // extensions: ['ts', 'vue', 'js'],
+    extensions: ['ts', 'vue', 'js'],
     alias: {
       '@': path.resolve(__dirname, 'src')
     }

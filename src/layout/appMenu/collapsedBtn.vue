@@ -8,7 +8,7 @@
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue';
-import { menuStore } from '@/store/menuStore';
+import { menuStore } from '@/store/menuStore.ts';
 import { storeToRefs } from 'pinia';
 
 export default defineComponent({
@@ -23,8 +23,10 @@ export default defineComponent({
       openKeys,
     } = storeToRefs(store);
 
-    watch(() => openKeys.value, (_val, oldVal) => store.setPreOpenKeys(oldVal));
-    watch(() => collapsed.value, (_val, oldVal) => store.setWidth(_val), { immediate: true });
+    watch(() => openKeys.value, (_val, oldVal) => {
+      store.setWidth(_val);
+      store.setPreOpenKeys(oldVal);
+    }, { immediate: true });
     return {
       collapsed,
       toggleCollapsed: () => store.toggleCollapsed(),
