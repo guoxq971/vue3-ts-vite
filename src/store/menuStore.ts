@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia';
-import { layoutConfig } from '@/layout/config.ts';
+import { layoutConfig } from '@/layout/config.js';
 
 export interface stateTypes {
-  collapsed: boolean,
-  selectedKeys: string[],
-  openKeys: string[],
-  preOpenKeys: string[],
-  width: number
+  collapsed: boolean, // 是否收起侧边栏
+  selectedKeys: string[], // 当前选中的菜单
+  openKeys: string[], // 当前展开的菜单
+  preOpenKeys: string[], // 上一次展开的菜单
+  width: number // 当前侧边栏宽度
 }
 
 export const menuStore = defineStore({

@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-// @ts-ignore
-import path from 'path';
+const path = require('path');
 
+console.log('__dirname',__dirname);
 export default defineConfig({
   resolve: {
     extensions: ['ts', 'vue', 'js'],

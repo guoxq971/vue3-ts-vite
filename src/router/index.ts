@@ -27,5 +27,16 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 });
-
+const { beforeEach, beforeResolve, afterEach } = router;
+beforeEach((to, from, next) => {
+  // console.log('beforeEach');
+  next();
+});
+beforeResolve((to, from, next) => {
+  // console.log('beforeResolve');
+  next();
+});
+afterEach((to, from, failure) => {
+  // console.log('afterEach');
+});
 export default router;
