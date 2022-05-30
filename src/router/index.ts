@@ -1,8 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { tabsStore } from '@/store/tabsStore.ts';
+import { useTool } from '@/utils/useTool/useTool.ts';
 
 export interface metaInterface {
   title: string
-  keepAlive: boolean
+  key: string
+  keepAlive?: boolean
 }
 
 const routes = [
@@ -27,7 +30,9 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 });
+
 const { beforeEach, beforeResolve, afterEach } = router;
+
 beforeEach((to, from, next) => {
   // console.log('beforeEach');
   next();
@@ -38,5 +43,6 @@ beforeResolve((to, from, next) => {
 });
 afterEach((to, from, failure) => {
   // console.log('afterEach');
+  tabsStore().routerBeforeEach(to);
 });
 export default router;

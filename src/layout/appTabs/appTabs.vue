@@ -1,62 +1,70 @@
 <template>
   <div>
-    <a-tabs v-model:activeKey="activeKey" hide-add type="editable-card" @edit="onEdit">
-      <a-tab-pane v-for="item in panes" :key="item.key" :tab="item.title" :closable="item.closable"/>
+    <v-contextmenu ref="contextmenu">
+      <v-contextmenu-item @click="handlerOtherClick">关闭其他</v-contextmenu-item>
+    </v-contextmenu>
+
+    <a-tabs
+      v-model:activeKey="activeKey"
+      hide-add
+      type="editable-card"
+      v-contextmenu:contextmenu
+    >
+      <a-tab-pane
+        v-for="pane in panes"
+        :key="pane.key"
+        :tab="pane.title"
+      />
     </a-tabs>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
+import { panesType, tabsStore } from '@/store/tabsStore.ts';
+import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
+import { ClockCircleOutlined, CloseOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
+  components: {
+    ClockCircleOutlined,
+    CloseOutlined,
+  },
   setup () {
-    // tabs
-    const panes = ref<{ title: string; content: string; key: string; closable?: boolean }[]>(new Array(20).fill(null).map((_, index) => {
-      const id = String(index + 1);
-      return { title: `Tab ${id}`, content: `Content of Tab Pane ${id}`, key: id };
-    }),);
-    // 当前激活的tabs
-    const activeKey = ref(panes.value[0].key);
-    // 新增tabs的下标
-    const newTabIndex = ref(0);
-    // 新增tab
-    const add = () => {
-      activeKey.value = `newTab${newTabIndex.value++}`;
-      panes.value.push({
-        title: `New Tab ${activeKey.value}`,
-        content: `Content of new Tab ${activeKey.value}`,
-        key: activeKey.value,
-      });
+    const store = tabsStore();
+    const router = useRouter();
+    const {
+      activeKey,
+      panes,
+    } = storeToRefs(store);
+    const handlerClick = (item: panesType) => {
+      router.push({ path: item.key });
+    };
+    const contextmenu = (e: HTMLDetailsElement) => {
+      console.log('contextmenu');
     };
     // 移除tab
-    const remove = (targetKey: string) => {
-      let lastIndex = 0;
-      panes.value.forEach((pane, i) => {
-        if (pane.key === targetKey) {
-          lastIndex = i - 1;
-        }
-      });
-      panes.value = panes.value.filter(pane => pane.key !== targetKey);
-      if (panes.value.length && activeKey.value === targetKey) {
-        if (lastIndex >= 0) {
-          activeKey.value = panes.value[lastIndex].key;
-        } else {
-          activeKey.value = panes.value[0].key;
-        }
-      }
+    const remove = (key: string) => {
+      store.removeTabs(key);
     };
-
-    const onEdit = (targetKey: string) => {
-      remove(targetKey);
+    // 关闭其他
+    const handlerOtherClick = () => {
+      store.removeOtherTabs();
     };
-
     return {
+      add: store.addTabs,
       panes,
       activeKey,
-      onEdit,
-      add,
+      contextmenu,
+      handlerClick,
+      handlerOtherClick,
     };
   },
 });
 </script>
 
+<style lang="scss" scoped>
+.icon-close {
+
+}
+</style>
