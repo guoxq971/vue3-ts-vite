@@ -17,7 +17,7 @@ const routes = [
     path: '/test',
     name: '/test',
     component: () => import('@/views/test/index.vue'),
-    meta: { title: '测试', keepAlive: false },
+    meta: { title: '测试', keepAlive: true },
   },
   // 重定向
   {

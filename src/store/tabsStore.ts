@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
-import { RouteLocationNormalized, useRoute } from 'vue-router';
-import router, { metaInterface } from '@/router/index.js';
+import { RouteLocationNormalized } from 'vue-router';
 import { message } from 'ant-design-vue';
 import { useTool } from '@/utils/useTool/useTool.js';
+import { nextTick } from 'vue';
 
 export type panesType = {
   title: string
@@ -13,17 +13,42 @@ export interface stateTypes {
   activeKey: string // 当前激活的tabs
   panes: panesType[] // tabs
   tempActiveKey: string //右键激活菜单使用到的临时key
+  exclude: string // 页面不缓存
+  refreshing: boolean // 刷新中
 }
 
 export const tabsStore = defineStore({
   id: 'tabsStore',
   state: (): stateTypes => ({
+    exclude: '',
+    refreshing: false,
     tempActiveKey: '',
     activeKey: '',
     panes: []
   }),
   getters: {},
   actions: {
+    /**
+     * 设置不需要刷新页面缓存的页面
+     * @param key 路径
+     */
+    refreshPage (key:string) {
+      this.refreshing = true;
+      this.exclude = key;
+      setTimeout(() => {
+        this.refreshing = false;
+        nextTick(() => {
+          this.exclude = '';
+        });
+      }, 200);
+    },
+    /**
+     * 设置不需要缓存的页面
+     * @param key 路径
+     */
+    setExclude (key:string) {
+      this.exclude = key;
+    },
     /**
      * 设置临时key
      * @param key 路径

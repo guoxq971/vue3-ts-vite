@@ -15,7 +15,11 @@
         v-contextmenu:contextmenu
         @contextmenu="handlerContextmenu(item.key)"
       >
-      <redo-outlined class="icon-refreshe" v-if="item.key===activeKey"/>
+      <redo-outlined
+       class="icon-refreshe"
+       v-if="item.key===activeKey"
+       @click="handlerRefreshClick(item.key)"
+       />
       <div>{{item.title}}</div>
       <close-outlined class="icon-close" @click.stop="handlerRemove(item.key)"/>
       </div>
@@ -39,19 +43,23 @@ export default defineComponent({
     const store = tabsStore();
     const router = useRouter();
     const { activeKey, panes, } = storeToRefs(store);
-    // tabs的点击
+    // tabs-点击跳转
     const handlerClick = (item: panesType) => router.push({ path: item.key });
-    // 移除指定tab
+    // tab-点击删除
     const handlerRemove = (key: string) => {
       const result = store.removeTabs(key);
       result && router.push({ path: store.activeKey });
     };
-    // 关闭其他
+    // tab-点击刷新
+    const handlerRefreshClick = (key:string) => {
+      store.refreshPage(key);
+    };
+    // 右键-关闭其他
     const handlerOtherClick = () => {
       store.removeOtherTabs();
       router.push({ path: store.activeKey });
     };
-    // 右键
+    // 右键(设置当前右键点击的key)
     const handlerContextmenu = (key:string) => {
       store.setTempActiveKey(key);
     };
@@ -62,6 +70,7 @@ export default defineComponent({
       handlerOtherClick,
       handlerContextmenu,
       handlerRemove,
+      handlerRefreshClick,
     };
   },
 });

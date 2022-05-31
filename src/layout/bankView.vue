@@ -1,26 +1,47 @@
 <template>
   <div>
+    panes: {{panes}} <br>
+    exclude: {{exclude}} <br>
+    refreshing: {{refreshing}} <br>
     <router-view v-slot="{Component}">
+        {{log(Component)}}
       <transition name="fade" mode="out-in">
-        <keep-alive>
-          <component :is="Component" v-if="keepAlive"/>
+        <keep-alive :exclude="exclude">
+          <component
+            :is="Component"
+            v-if="keepAlive && !refreshing"
+            :key="$route.path"
+          />
         </keep-alive>
       </transition>
-      <component :is="Component" v-if="!keepAlive"/>
+      <component
+        :is="Component"
+        v-if="!keepAlive"
+        :key="$route.path"
+      />
     </router-view>
   </div>
 </template>
 
 <script lang="ts">
+import { tabsStore } from '@/store/tabsStore.js';
+import { storeToRefs } from 'pinia';
 import { computed, defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
 
 export default defineComponent({
   setup () {
+    const store = tabsStore();
     const route = useRoute();
+    const { exclude,refreshing, panes } = storeToRefs(store);
     const keepAlive = computed(() => route.meta.keepAlive as boolean);
+    const log = (res) => console.log(res);
     return {
       keepAlive,
+      exclude,
+      panes,
+      log,
+      refreshing,
     };
   }
 });
