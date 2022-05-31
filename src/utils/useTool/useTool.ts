@@ -1,7 +1,13 @@
 import _ from 'lodash';
 import { isEmptyPlusReturnKeyInterface } from '@/utils/useTool/types';
 
-export const useTool = {
+interface useToolInterface {
+  uuid: Function,
+  isEmptyPlus: Function,
+  isEmptyPlusReturnKey: Function
+}
+
+export const useTool:useToolInterface = {
   uuid: uuid,
   isEmptyPlus: isEmptyPlus,
   isEmptyPlusReturnKey: isEmptyPlusReturnKey
@@ -34,7 +40,7 @@ function isEmptyPlus (): boolean {
 // 判断是否为空
 function isEmptyPlusReturnKey (): isEmptyPlusReturnKeyInterface {
   for (let i = 0; i < arguments.length; i++) {
-    const argument = arguments[i];
+    const argument:string = arguments[i];
     // 先判断是否为数字
     if (_.isNumber(argument)) {
       return { flag: false, key: argument };

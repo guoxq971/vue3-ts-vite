@@ -13,10 +13,10 @@ module.exports = {
   parserOptions: {
     parser: '@typescript-eslint/parser',
     ecmaVersion: 2020,
-    sourceType: 'module', //用来指定js导入的方式，默认是script，此处设置为module，指某块导入方式
+    sourceType: 'module' //用来指定js导入的方式，默认是script，此处设置为module，指某块导入方式
   },
   extends: [
-    'prettier', //使得@typescript-eslint中的样式规范失效，遵循prettier中的样式规范
+    'prettier' //使得@typescript-eslint中的样式规范失效，遵循prettier中的样式规范
     // 下面这个冲突了, 没找到解决方法
     // 'plugin:prettier/recommended' //使用prettier中的样式规范，且如果使得ESLint会检测prettier的格式问题，同样将格式问题以error的形式抛出
   ],
@@ -40,16 +40,19 @@ module.exports = {
     'func-call-spacing': 1, //要求在函数标识符和其调用之间有空格
     'no-multi-spaces': 2, //禁止使用多个空格
     'no-mixed-spaces-and-tabs': 2, //禁止空格和 tab 的混合缩进
-    'indent': [2, 2], //强制统一缩进
-    'quotes': [1, 'single'], //单引号
-    'semi': [2, 'always'], //语句强制分号结尾
+    indent: [2, 2], //强制统一缩进
+    quotes: [1, 'single'], //单引号
+    semi: [2, 'always'], //语句强制分号结尾
     // 函数前的空格 const test = async ()=>{}
-    'space-before-function-paren': [2, {
-      'anonymous': 'always', //匿名函数表达式（例如function () {}）
-      'named': 'always', //命名函数表达式（例如function foo () {}）
-      'asyncArrow': 'always' //异步箭头函数表达式（例如async () => {}
-    }],
+    'space-before-function-paren': [
+      2,
+      {
+        anonymous: 'always', //匿名函数表达式（例如function () {}）
+        named: 'always', //命名函数表达式（例如function foo () {}）
+        asyncArrow: 'always' //异步箭头函数表达式（例如async () => {}
+      }
+    ],
     // 大括号内的间距一致 const obj = { name:'zhangsan' }
-    'object-curly-spacing': [2, 'always'],
+    'object-curly-spacing': [2, 'always']
   }
 }

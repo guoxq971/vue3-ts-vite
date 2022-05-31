@@ -9,7 +9,6 @@ import App from './App.vue';
 import contextmenu from 'v-contextmenu';
 import 'v-contextmenu/dist/themes/default.css';
 
-
 const vueApp = createApp(App);
 const pinia = createPinia();
 

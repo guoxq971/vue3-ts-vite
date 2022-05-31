@@ -1,76 +1,96 @@
 import { defineStore } from 'pinia';
 import { RouteLocationNormalized, useRoute } from 'vue-router';
-import router, { metaInterface } from '@/router/index.ts';
+import router, { metaInterface } from '@/router/index.js';
 import { message } from 'ant-design-vue';
-import { useTool } from '@/utils/useTool/useTool.ts';
+import { useTool } from '@/utils/useTool/useTool.js';
 
 export type panesType = {
-  title: string,
-  key: string,
-  closable: boolean,
-};
+  title: string
+  key: string
+}
 
 export interface stateTypes {
-  activeKey: string, // 当前激活的tabs
-  panes: panesType[], // tabs
+  activeKey: string // 当前激活的tabs
+  panes: panesType[] // tabs
+  tempActiveKey: string //右键激活菜单使用到的临时key
 }
 
 export const tabsStore = defineStore({
   id: 'tabsStore',
   state: (): stateTypes => ({
+    tempActiveKey: '',
     activeKey: '',
-    panes: [],
+    panes: []
   }),
   getters: {},
   actions: {
+    /**
+     * 设置临时key
+     * @param key 路径
+     */
+    setTempActiveKey (key:string) {
+      this.tempActiveKey = key;
+    },
     // 路由守卫
     routerBeforeEach (to: RouteLocationNormalized): void {
-      const { path } = to;
-      let { hasTab, addTabs } = this;
-      if (hasTab(path)) {
-        this.activeKey = path;
+      if (this.hasTab(to.path)) {
+        this.activeKey = to.path;
       } else {
-        addTabs();
+        this.addTabs(to.path, to.meta.title as string);
       }
     },
     // 判断当前tabs是否存在 ture=存在 false=不存在
-    hasTab (key): boolean {
-      let { panes } = this;
-      return panes.some(item => item.key === key);
+    hasTab (key:string): boolean {
+      return this.panes.some((item) => item.key === key);
     },
-    // 添加一个tabs
-    addTabs (): void {
-      let { panes } = this;
-      const { meta, path } = router.currentRoute.value;
-      const { title } = meta as metaInterface;
+    /**
+     *  添加一个tabs
+     * @param path 路径
+     * @param title 标题
+     */
+    addTabs (path:string, title:string): void {
       this.activeKey = path;
-      panes.push({
-        title: title,
-        key: path,
-      });
+      this.panes.push({ title: title, key: path });
     },
     // 关闭一个tabs
-    removeTabs (key): void {
+    removeTabs (key: string): boolean {
       if (this.panes.length === 1) {
         message.warning('这是最后一页，不能再关闭了');
-        return;
+        return false;
       }
-      if (this.hasTab(key)) {
-        const index = this.panes.findIndex(item => item.key === key);
-        if (key === this.activeKey) {
-          this.activeKey = this.panes[index - 1].key;
-        }
+      const result = this.hasTab(key);
+      if (!result){
+        message.warning('关闭了一个不存在的tabs');
+        return false;
+      }
+      const index = this.panes.findIndex((item) => item.key === key);
+      if (index === -1) {
+        message.warning('关闭了一个不存在的tabs');
+        return false;
+      }
+      // 要关闭的tabs是否不是当前激活的tabs, 直接关闭
+      if (this.activeKey !== this.panes[index].key) {
         this.panes.splice(index, 1);
+        return true;
       }
+      // 如果是第一个tabs, 则激活第二个tabs
+      if (index === 0) {
+        this.activeKey = this.panes[index + 1].key;
+      } else {
+        this.activeKey = this.panes[index - 1].key;
+      }
+      this.panes.splice(index, 1);
+      return true;
     },
     // 关闭其他
-    removeOtherTabs (key = ''): void {
-      key = useTool.isEmptyPlus(key) ? this.activeKey : key;
-      if (this.hasTab(key)) {
-        const index = this.panes.findIndex(item => item.key === key);
-        this.panes = this.panes.filter((item, i) => i === index);
-        this.activeKey = key;
+    removeOtherTabs (): void {
+      if (useTool.isEmptyPlus(this.tempActiveKey)){
+        message.warning('参数错误！');
+        return;
       }
-    },
+      const index = this.panes.findIndex((item) => item.key === this.tempActiveKey);
+      this.panes = this.panes.filter((item, i) => i === index);
+      this.activeKey = this.tempActiveKey;
+    }
   }
 });

@@ -1,21 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { tabsStore } from '@/store/tabsStore.ts';
-import { useTool } from '@/utils/useTool/useTool.ts';
+import { tabsStore } from '@/store/tabsStore.js';
 
 export interface metaInterface {
   title: string
-  key: string
-  keepAlive?: boolean
+  keepAlive: boolean
 }
 
 const routes = [
   {
     path: '/home',
+    name: '/home',
     component: () => import('@/views/home/index.vue'),
     meta: { title: '首页', keepAlive: true },
   },
   {
     path: '/test',
+    name: '/test',
     component: () => import('@/views/test/index.vue'),
     meta: { title: '测试', keepAlive: false },
   },
