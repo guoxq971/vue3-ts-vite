@@ -20,6 +20,12 @@
         </template>
         <span>测试</span>
       </a-menu-item>
+      <a-menu-item key="/table">
+        <template #icon>
+          <DesktopOutlined/>
+        </template>
+        <span>表格</span>
+      </a-menu-item>
       <a-menu-item key="3">
         <template #icon>
           <InboxOutlined/>
@@ -60,7 +66,7 @@ import {
   InboxOutlined,
   AppstoreOutlined,
 } from '@ant-design/icons-vue';
-import { menuStore } from '@/store/menuStore.ts';
+import { menuStore } from '@/store/menuStore.js';
 import { storeToRefs } from 'pinia';
 import { MenuProps } from 'ant-design-vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -90,8 +96,9 @@ export default defineComponent({
     }, { immediate: true });
     // 菜单的点击
     const handlerClick: MenuProps['onClick'] = ({ key }) => {
-      router.push({ path: key + '' });
-      setSelectKeys([key]);
+      let _key = String(key);
+      router.push({ path: _key });
+      setSelectKeys([_key]);
     };
 
     return {

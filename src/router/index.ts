@@ -19,6 +19,12 @@ const routes = [
     component: () => import('@/views/test/index.vue'),
     meta: { title: '测试', keepAlive: false },
   },
+  {
+    path: '/table',
+    name: 'table',
+    component: () => import('@/views/table/index.vue'),
+    meta: { title: '表格', keepAlive: true },
+  },
   // 重定向
   {
     path: '/',
