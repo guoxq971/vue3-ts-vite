@@ -15,6 +15,7 @@ export interface stateTypes {
   tempActiveKey: string //右键激活菜单使用到的临时key
   exclude: string // 页面不缓存
   refreshing: boolean // 刷新中
+  tabList: string[] // 已换成的所有tabs
 }
 
 export const tabsStore = defineStore({
@@ -24,7 +25,8 @@ export const tabsStore = defineStore({
     refreshing: false,
     tempActiveKey: '',
     activeKey: '',
-    panes: []
+    panes: [],
+    tabList: []
   }),
   getters: {},
   actions: {
@@ -32,13 +34,15 @@ export const tabsStore = defineStore({
      * 设置不需要刷新页面缓存的页面
      * @param key 路径
      */
-    refreshPage (key:string) {
+    refreshPage (pane:panesType) {
       this.refreshing = true;
-      this.exclude = key;
+      this.exclude = pane.key;
+      this.tabList.splice(this.tabList.findIndex(item=>item === pane.key), 1);
       setTimeout(() => {
         this.refreshing = false;
         nextTick(() => {
           this.exclude = '';
+          this.tabList.push(pane.key);
         });
       }, 200);
     },
@@ -58,10 +62,11 @@ export const tabsStore = defineStore({
     },
     // 路由守卫
     routerBeforeEach (to: RouteLocationNormalized): void {
-      if (this.hasTab(to.path)) {
-        this.activeKey = to.path;
+      let name = to.name as string;
+      if (this.hasTab(name)) {
+        this.activeKey = name;
       } else {
-        this.addTabs(to.path, to.meta.title as string);
+        this.addTabs(name, to.meta.title as string);
       }
     },
     // 判断当前tabs是否存在 ture=存在 false=不存在
@@ -76,6 +81,7 @@ export const tabsStore = defineStore({
     addTabs (path:string, title:string): void {
       this.activeKey = path;
       this.panes.push({ title: title, key: path });
+      this.tabList.push(path);
     },
     // 关闭一个tabs
     removeTabs (key: string): boolean {
@@ -96,6 +102,7 @@ export const tabsStore = defineStore({
       // 要关闭的tabs是否不是当前激活的tabs, 直接关闭
       if (this.activeKey !== this.panes[index].key) {
         this.panes.splice(index, 1);
+        this.tabList.splice(index, 1);
         return true;
       }
       // 如果是第一个tabs, 则激活第二个tabs
@@ -105,6 +112,7 @@ export const tabsStore = defineStore({
         this.activeKey = this.panes[index - 1].key;
       }
       this.panes.splice(index, 1);
+      this.tabList.splice(index, 1);
       return true;
     },
     // 关闭其他
@@ -115,6 +123,7 @@ export const tabsStore = defineStore({
       }
       const index = this.panes.findIndex((item) => item.key === this.tempActiveKey);
       this.panes = this.panes.filter((item, i) => i === index);
+      this.tabList = this.tabList.filter((item, i) => i === index);
       this.activeKey = this.tempActiveKey;
     }
   }

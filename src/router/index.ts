@@ -9,15 +9,15 @@ export interface metaInterface {
 const routes = [
   {
     path: '/home',
-    name: '/home',
+    name: 'home',
     component: () => import('@/views/home/index.vue'),
     meta: { title: '首页', keepAlive: true },
   },
   {
     path: '/test',
-    name: '/test',
+    name: 'test',
     component: () => import('@/views/test/index.vue'),
-    meta: { title: '测试', keepAlive: true },
+    meta: { title: '测试', keepAlive: false },
   },
   // 重定向
   {

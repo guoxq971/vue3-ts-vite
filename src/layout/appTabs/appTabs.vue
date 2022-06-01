@@ -18,7 +18,7 @@
       <redo-outlined
        class="icon-refreshe"
        v-if="item.key===activeKey"
-       @click="handlerRefreshClick(item.key)"
+       @click="handlerRefreshClick(item)"
        />
       <div>{{item.title}}</div>
       <close-outlined class="icon-close" @click.stop="handlerRemove(item.key)"/>
@@ -30,7 +30,7 @@
 import { defineComponent, ref } from 'vue';
 import { panesType, tabsStore } from '@/store/tabsStore.js';
 import { storeToRefs } from 'pinia';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { ClockCircleOutlined, CloseOutlined,RedoOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
@@ -42,6 +42,7 @@ export default defineComponent({
   setup () {
     const store = tabsStore();
     const router = useRouter();
+    const route = useRoute();
     const { activeKey, panes, } = storeToRefs(store);
     // tabs-点击跳转
     const handlerClick = (item: panesType) => router.push({ path: item.key });
@@ -51,8 +52,8 @@ export default defineComponent({
       result && router.push({ path: store.activeKey });
     };
     // tab-点击刷新
-    const handlerRefreshClick = (key:string) => {
-      store.refreshPage(key);
+    const handlerRefreshClick = (item:panesType) => {
+      store.refreshPage(item);
     };
     // 右键-关闭其他
     const handlerOtherClick = () => {
