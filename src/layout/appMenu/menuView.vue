@@ -66,7 +66,7 @@ import {
   InboxOutlined,
   AppstoreOutlined,
 } from '@ant-design/icons-vue';
-import { menuStore } from '@/store/menuStore.js';
+import { menuStore } from '@/store/menuStore';
 import { storeToRefs } from 'pinia';
 import { MenuProps } from 'ant-design-vue';
 import { useRoute, useRouter } from 'vue-router';

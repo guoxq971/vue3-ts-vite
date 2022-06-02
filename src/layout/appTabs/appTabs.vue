@@ -28,7 +28,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { panesType, tabsStore } from '@/store/tabsStore.js';
+import { panesType, tabsStore } from '@/store/tabsStore';
 import { storeToRefs } from 'pinia';
 import { useRoute, useRouter } from 'vue-router';
 import { ClockCircleOutlined, CloseOutlined,RedoOutlined } from '@ant-design/icons-vue';

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { layoutConfig } from '@/layout/config.js';
+import { layoutConfig } from '@/layout/config';
 
 export interface stateTypes {
   collapsed: boolean, // 是否收起侧边栏

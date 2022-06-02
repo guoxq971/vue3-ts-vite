@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { panesType, tabsStore } from '@/store/tabsStore.js';
+import { panesType, tabsStore } from '@/store/tabsStore';
 import { storeToRefs } from 'pinia';
 import { computed, defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
