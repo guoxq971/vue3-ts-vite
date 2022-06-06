@@ -11,7 +11,7 @@ export interface layoutConfigType {
 export const layoutConfig: layoutConfigType = {
   menu: {
     // 最小宽度
-    minWidth: 64,
+    minWidth: 80,
     // 展开宽度
     maxWidth: 256,
     // 背景颜色

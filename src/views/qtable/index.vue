@@ -1,4 +1,3 @@
-import { ref } from 'vue';
 <template>
   <div>
     pageNum: {{pageNum}} <br>
@@ -39,7 +38,6 @@ import { ref } from 'vue';
 import { ref } from 'vue';
 
 export default {
-  name: 'qtable',
   setup () {
     // 表格数据
     let dataSource = [];

@@ -1,13 +1,13 @@
 <template>
-  <div class="tw-flex tw-flex-col tw-h-screen tw-max-w-screen">
-    <div class="tw-h-[48px] tw-bg-blue-d tw-flex tw-items-center">
+  <div class='tw-flex tw-flex-col tw-h-screen tw-max-w-screen'>
+    <div class='tw-h-[48px] tw-bg-blue-d tw-flex tw-items-center'>
       <collapsedBtn />
     </div>
-    <div class="tw-flex tw-flex-1">
-      <div :class="`tw-max-w-[${menu.maxWidth}px] tw-w-[${menu.minWidth}px] tw-bg-[${menu.bgColor}]`">
+    <div class='tw-flex tw-flex-1'>
+      <div :class="`tw-bg-[${menu.bgColor}]`" :style="`width:${width}px`">
         <AppMenu />
       </div>
-      <div class="tw-flex-1 tw-h-full tw-overscroll-auto" :style="`width:calc(100vw - ${width + 1000}px)`">
+      <div class='tw-flex-1 tw-h-full tw-overscroll-auto' :style='`min-width:calc(100vw - ${width}px)`'>
         <appTabs />
         <bankView />
       </div>
@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { defineComponent, ref } from 'vue';
 import AppMenu from './appMenu/menuView.vue';
 import appTabs from './appTabs/appTabs.vue';
@@ -44,4 +44,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang='scss' scoped></style>

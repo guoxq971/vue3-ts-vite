@@ -6,7 +6,14 @@ export interface metaInterface {
   keepAlive: boolean
 }
 
-const routes = [
+export interface routersInterface {
+  path: string,
+  bane: string,
+  component: any,
+  meta: metaInterface
+}
+
+export const routes = [
   {
     path: '/home',
     name: 'home',
@@ -45,17 +52,20 @@ const router = createRouter({
 
 const { beforeEach, beforeResolve, afterEach } = router;
 
-beforeEach((to, from, next) => {
-  console.log(to, from, next);
-  console.log('beforeEach');
+beforeEach(async (to, from, next) => {
+  // 给自动组件加上对应的 name
+  let d = routes.find(item => item.name === to.name);
+  let d2 = await d.component();
+  d2.default.name = to.name;
+  // console.log('beforeEach');
   next();
 });
 beforeResolve((to, from, next) => {
-  console.log('beforeResolve');
+  // console.log('beforeResolve');
   next();
 });
 afterEach((to, from, failure) => {
-  console.log('afterEach');
+  // console.log('afterEach');
   tabsStore().routerAfterEach(to);
 });
 export default router;
