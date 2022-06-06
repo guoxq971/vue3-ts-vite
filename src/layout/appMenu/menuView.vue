@@ -8,33 +8,33 @@
       :inline-collapsed='collapsed'
       @click='handlerClick'
     >
-<!--      <template v-for='{name,path,meta} in routes' :key='name'>-->
-<!--        <a-menu-item>-->
-<!--          <template #icon>-->
-<!--            <PieChartOutlined />-->
-<!--          </template>-->
-<!--          <span>{{ meta.title }}</span>-->
-<!--        </a-menu-item>-->
-<!--      </template>-->
+      <template v-for='item in routes' :key='item.path'>
+        <a-menu-item>
+          <template #icon>
+            <PieChartOutlined />
+          </template>
+          <span>{{ item.meta.title }}</span>
+        </a-menu-item>
+      </template>
 
-      <a-menu-item key='/home'>
-        <template #icon>
-          <PieChartOutlined />
-        </template>
-        <span>首页</span>
-      </a-menu-item>
-      <a-menu-item key='/test'>
-        <template #icon>
-          <DesktopOutlined />
-        </template>
-        <span>测试</span>
-      </a-menu-item>
-      <a-menu-item key='/qtable'>
-        <template #icon>
-          <DesktopOutlined />
-        </template>
-        <span>表格</span>
-      </a-menu-item>
+      <!--      <a-menu-item key='/home'>-->
+      <!--        <template #icon>-->
+      <!--          <PieChartOutlined />-->
+      <!--        </template>-->
+      <!--        <span>首页</span>-->
+      <!--      </a-menu-item>-->
+      <!--      <a-menu-item key='/test'>-->
+      <!--        <template #icon>-->
+      <!--          <DesktopOutlined />-->
+      <!--        </template>-->
+      <!--        <span>测试</span>-->
+      <!--      </a-menu-item>-->
+      <!--      <a-menu-item key='/qtable'>-->
+      <!--        <template #icon>-->
+      <!--          <DesktopOutlined />-->
+      <!--        </template>-->
+      <!--        <span>表格</span>-->
+      <!--      </a-menu-item>-->
     </a-menu>
   </div>
 </template>
@@ -76,12 +76,12 @@ export default defineComponent({
     watch(() => route.path, (_val) => setSelectKeys([_val]), { immediate: true });
     // 菜单的点击
     const handlerClick: MenuProps['onClick'] = (item) => {
-      console.log('item',item);
+      console.log('item', item);
       let _key = String(item.key);
       router.push({ path: _key });
       setSelectKeys([_key]);
     };
-    const routes = ref<routersInterface[]>(routes2);
+    const routes = ref<routersInterface[]>(routes2.filter(item => item.name));
     return {
       collapsed,
       openKeys,
