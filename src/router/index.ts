@@ -20,14 +20,14 @@ const routes = [
     meta: { title: '测试', keepAlive: false }
   },
   {
-    path: '/table',
-    name: 'table',
-    component: () => import('@/views/table/index.vue'),
+    path: '/qtable',
+    name: 'qtable',
+    component: () => import('@/views/qtable/index.vue'),
     meta: { title: '表格', keepAlive: true }
   },
   {
-    path: '/form',
-    name: 'form',
+    path: '/qform',
+    name: 'qform',
     component: () => import('@/views/form/index.vue'),
     meta: { title: '表单', keepAlive: true }
   },
@@ -47,15 +47,15 @@ const { beforeEach, beforeResolve, afterEach } = router;
 
 beforeEach((to, from, next) => {
   console.log(to, from, next);
-  // console.log('beforeEach');
+  console.log('beforeEach');
   next();
 });
 beforeResolve((to, from, next) => {
-  // console.log('beforeResolve');
+  console.log('beforeResolve');
   next();
 });
 afterEach((to, from, failure) => {
-  // console.log('afterEach');
+  console.log('afterEach');
   tabsStore().routerAfterEach(to);
 });
 export default router;

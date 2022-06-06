@@ -39,7 +39,7 @@ import { ref } from 'vue';
 import { ref } from 'vue';
 
 export default {
-  name: 'table',
+  name: 'qform',
   setup () {
     // 表格数据
     let dataSource = [];

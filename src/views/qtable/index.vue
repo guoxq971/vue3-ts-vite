@@ -39,7 +39,7 @@ import { ref } from 'vue';
 import { ref } from 'vue';
 
 export default {
-  name: 'form',
+  name: 'qtable',
   setup () {
     // 表格数据
     let dataSource = [];

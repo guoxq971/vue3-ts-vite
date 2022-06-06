@@ -1,6 +1,6 @@
 <template>
   <div class="tw-text-red-500">
-    这里是首页 <br>
+    这里是首页123123 <br>
     <a-input></a-input>
   </div>
 </template>

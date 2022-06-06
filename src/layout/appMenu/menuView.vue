@@ -20,7 +20,7 @@
         </template>
         <span>测试</span>
       </a-menu-item>
-      <a-menu-item key="/table">
+      <a-menu-item key="/qtable">
         <template #icon>
           <DesktopOutlined/>
         </template>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    $route:{{$route}}
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
         <keep-alive :include="tabList" :exclude="exclude">

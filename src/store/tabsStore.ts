@@ -58,6 +58,7 @@ export const tabsStore = defineStore({
     },
     // 路由守卫
     routerAfterEach (to: RouteLocationNormalized): void {
+      console.log('routerAfterEach');
       let name = to.name as string;
       if (this.hasTab(name)) {
         this.activeKey = name;
