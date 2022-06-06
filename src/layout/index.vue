@@ -1,15 +1,15 @@
 <template>
   <div class='tw-flex tw-flex-col tw-h-screen tw-max-w-screen'>
     <div class='tw-min-h-[48px] tw-bg-blue-d tw-flex tw-items-center'>
-      <collapsedBtn />
+      <collapsedBtn/>
     </div>
-    <div class='tw-flex tw-flex-1'>
+    <div class='tw-flex tw-flex-1 tw-bg-bank-d'>
       <div :class="`tw-bg-[${menu.bgColor}]`" :style="`min-width:${width}px`">
         <AppMenu />
       </div>
-      <div class='tw-flex-1 tw-h-full tw-overscroll-auto' :style='`min-width:calc(100vw - ${width}px - 20px)`'>
+      <div class='tw-flex-1 tw-h-full tw-overscroll-auto tw-flex tw-flex-col' :style='`min-width:calc(100vw - ${width}px - 20px)`'>
         <appTabs />
-        <bankView />
+        <bankView class='tw-flex-1'/>
       </div>
     </div>
   </div>

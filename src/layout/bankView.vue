@@ -1,6 +1,6 @@
 <template>
-  <div class='tw-p-[10px] tw-pr-[15px] tw-bg-gray-50'>
-    <router-view v-slot='{ Component }' class='tw-bg-gray-0'>
+  <div class='tw-p-[10px] tw-pr-[15px] tw-pt-[5px]'>
+    <router-view v-slot='{ Component }' class='tw-bg-white tw-h-[100%] tw-p-[5px] tw-pt-[8px]'>
       <transition name='fade' mode='out-in'>
         <keep-alive :include='tabList' :exclude='exclude'>
           <component :is='Component' :key='routeName' v-if='keepAlive && tabList.includes(routeName)' />

@@ -6,11 +6,12 @@ module.exports = {
     extend: {
       colors: {
         'blue-d': '#3b82f6',
-      },
-    },
+        'bank-d': '#f0f2f5'
+      }
+    }
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
+  plugins: []
 };
