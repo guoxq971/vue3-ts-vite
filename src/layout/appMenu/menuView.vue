@@ -76,10 +76,8 @@ export default defineComponent({
     watch(() => route.path, (_val) => setSelectKeys([_val]), { immediate: true });
     // 菜单的点击
     const handlerClick: MenuProps['onClick'] = (item) => {
-      console.log('item', item);
-      let _key = String(item.key);
-      router.push({ path: _key });
-      setSelectKeys([_key]);
+      router.push({ path: item.key });
+      setSelectKeys([item.key]);
     };
     const routes = ref<routersInterface[]>(routes2.filter(item => item.name));
     return {

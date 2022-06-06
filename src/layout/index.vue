@@ -7,7 +7,7 @@
       <div :class="`tw-bg-[${menu.bgColor}]`" :style="`min-width:${width}px`">
         <AppMenu />
       </div>
-      <div class='tw-flex-1 tw-h-full tw-overscroll-auto' :style='`min-width:calc(100vw - ${width}px)`'>
+      <div class='tw-flex-1 tw-h-full tw-overscroll-auto' :style='`min-width:calc(100vw - ${width}px - 20px)`'>
         <appTabs />
         <bankView />
       </div>
