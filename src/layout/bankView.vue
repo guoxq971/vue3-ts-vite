@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- panes: {{panes}} <br>
-    tabList: {{tabList}} <br>
-    exclude: {{exclude}} <br> -->
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
         <keep-alive :include="tabList" :exclude="exclude">
@@ -24,14 +21,13 @@ export default defineComponent({
   setup () {
     const store = tabsStore();
     const route = useRoute();
-    const { exclude,refreshing, panes,tabList } = storeToRefs(store);
+    const { exclude, panes,tabList } = storeToRefs(store);
     const keepAlive = computed(() => route.meta.keepAlive as boolean);
     const routeName = computed(() => route.name as string);
     return {
       keepAlive,
       exclude,
       panes,
-      refreshing,
       tabList,
       routeName,
     };

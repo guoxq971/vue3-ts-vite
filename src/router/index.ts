@@ -11,19 +11,25 @@ const routes = [
     path: '/home',
     name: 'home',
     component: () => import('@/views/home/index.vue'),
-    meta: { title: '首页', keepAlive: true },
+    meta: { title: '首页', keepAlive: true }
   },
   {
     path: '/test',
     name: 'test',
     component: () => import('@/views/test/index.vue'),
-    meta: { title: '测试', keepAlive: false },
+    meta: { title: '测试', keepAlive: false }
   },
   {
     path: '/table',
     name: 'table',
     component: () => import('@/views/table/index.vue'),
-    meta: { title: '表格', keepAlive: true },
+    meta: { title: '表格', keepAlive: true }
+  },
+  {
+    path: '/form',
+    name: 'form',
+    component: () => import('@/views/form/index.vue'),
+    meta: { title: '表单', keepAlive: true }
   },
   // 重定向
   {
@@ -40,6 +46,7 @@ const router = createRouter({
 const { beforeEach, beforeResolve, afterEach } = router;
 
 beforeEach((to, from, next) => {
+  console.log(to, from, next);
   // console.log('beforeEach');
   next();
 });
@@ -49,6 +56,6 @@ beforeResolve((to, from, next) => {
 });
 afterEach((to, from, failure) => {
   // console.log('afterEach');
-  tabsStore().routerBeforeEach(to);
+  tabsStore().routerAfterEach(to);
 });
 export default router;

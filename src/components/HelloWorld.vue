@@ -1,8 +1,8 @@
 <template>
   test
-  <button @click="handleClick">修改状态数据</button>
+  <button @click='handleClick'>修改状态数据</button>
   <!-- 模板内不需要加.value -->
-  <p class="text-red-">{{ store.counter }}</p>
+  <p class='text-red-'>{{ store.counter }}</p>
   <!-- 或者使用解构之后的 -->
   <p>{{ counter }}</p>
 </template>
@@ -28,7 +28,7 @@ export default defineComponent({
     return {
       handleClick,
       counter,
-      store,
+      store
     };
   }
 });

@@ -14,15 +14,13 @@ export interface stateTypes {
   panes: panesType[] // tabs
   tempActiveKey: string //右键激活菜单使用到的临时key
   exclude: string // 页面不缓存
-  refreshing: boolean // 刷新中
-  tabList: string[] // 已换成的所有tabs
+  tabList: string[] // 已缓存的所有tabs
 }
 
 export const tabsStore = defineStore({
   id: 'tabsStore',
   state: (): stateTypes => ({
     exclude: '',
-    refreshing: false,
     tempActiveKey: '',
     activeKey: '',
     panes: [],
@@ -32,14 +30,12 @@ export const tabsStore = defineStore({
   actions: {
     /**
      * 设置不需要刷新页面缓存的页面
-     * @param key 路径
+     * @param pane
      */
     refreshPage (pane:panesType) {
-      this.refreshing = true;
       this.exclude = pane.key;
       this.tabList.splice(this.tabList.findIndex(item=>item === pane.key), 1);
       setTimeout(() => {
-        this.refreshing = false;
         nextTick(() => {
           this.exclude = '';
           this.tabList.push(pane.key);
@@ -61,7 +57,7 @@ export const tabsStore = defineStore({
       this.tempActiveKey = key;
     },
     // 路由守卫
-    routerBeforeEach (to: RouteLocationNormalized): void {
+    routerAfterEach (to: RouteLocationNormalized): void {
       let name = to.name as string;
       if (this.hasTab(name)) {
         this.activeKey = name;

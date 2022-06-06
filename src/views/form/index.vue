@@ -39,7 +39,7 @@ import { ref } from 'vue';
 import { ref } from 'vue';
 
 export default {
-  name: 'form',
+  name: 'table',
   setup () {
     // 表格数据
     let dataSource = [];
