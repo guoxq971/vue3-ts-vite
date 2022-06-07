@@ -27,6 +27,12 @@ export const routes = [
     meta: { title: '测试', keepAlive: false }
   },
   {
+    path: '/test2',
+    name: 'test2',
+    component: () => import('@/views/test2/index.vue'),
+    meta: { title: '测试2', keepAlive: false }
+  },
+  {
     path: '/qtable',
     name: 'qtable',
     component: () => import('@/views/qtable/index.vue'),
@@ -54,7 +60,7 @@ const { beforeEach, beforeResolve, afterEach } = router;
 
 beforeEach(async (to, from, next) => {
   // 给自动组件加上对应的 name
-  let d = routes.find(item => item.name === to.name);
+  let d: any = routes.find(item => item.name === to.name);
   let d2 = await d.component();
   d2.default.name = to.name;
   // console.log('beforeEach');

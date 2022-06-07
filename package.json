@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "ant-design-vue": "^3.2.3",
+    "axios": "^0.27.2",
     "lodash": "^4.17.21",
     "pinia": "^2.0.14",
     "v-contextmenu": "^3.0.0",
     "vue": "^3.2.25",
+    "vue-axios": "^3.4.1",
     "vue-router": "^4.0.15"
   },
   "devDependencies": {
