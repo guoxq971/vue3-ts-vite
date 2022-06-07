@@ -1,6 +1,5 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import { tabsStore } from '@/store/tabsStore.js';
-import { beforeEachs } from '@/router/config';
+import { createRouter, createWebHistory } from 'vue-router';
+import { afterEachs, beforeEachs } from '@/router/config';
 
 export interface metaInterface {
   title: string
@@ -14,7 +13,7 @@ export interface routersInterface {
   meta: metaInterface
 }
 
-export const routes: RouteRecordRaw[] = [
+export const routes = [
   {
     path: '/home',
     name: 'home',
@@ -68,7 +67,9 @@ beforeEach(async (to, from, next) => {
 beforeResolve((to, from, next) => {
   next();
 });
-afterEach((to, from, failure) => {
-  tabsStore().routerAfterEach(to);
+afterEach(async (to, from, failure) => {
+  for (let each of afterEachs) {
+    await each(to, from, failure);
+  }
 });
 export default router;
