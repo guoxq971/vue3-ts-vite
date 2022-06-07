@@ -1,5 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { tabsStore } from '@/store/tabsStore.js';
+import { beforeEachs } from '@/router/config';
 
 export interface metaInterface {
   title: string
@@ -13,7 +14,7 @@ export interface routersInterface {
   meta: metaInterface
 }
 
-export const routes = [
+export const routes: RouteRecordRaw[] = [
   {
     path: '/home',
     name: 'home',
@@ -59,19 +60,15 @@ const router = createRouter({
 const { beforeEach, beforeResolve, afterEach } = router;
 
 beforeEach(async (to, from, next) => {
-  // 给自动组件加上对应的 name
-  let d: any = routes.find(item => item.name === to.name);
-  let d2 = await d.component();
-  d2.default.name = to.name;
-  // console.log('beforeEach');
+  for (let each of beforeEachs) {
+    await each(to, from, next);
+  }
   next();
 });
 beforeResolve((to, from, next) => {
-  // console.log('beforeResolve');
   next();
 });
 afterEach((to, from, failure) => {
-  // console.log('afterEach');
   tabsStore().routerAfterEach(to);
 });
 export default router;
