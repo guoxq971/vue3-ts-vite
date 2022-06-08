@@ -1,91 +1,109 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { message, notification } from 'ant-design-vue';
+import { responseBase } from '@/interfaces/common';
 
 export class Request {
+  // baseURL
+  public static baseURL: string = '/api';
+  // 超时时间
+  public static timeout: number = 6000;
+  // 请求头
+  private static contentType:string = 'application/x-www-form-urlencoded';
+  // axios实例
   public static axiosInstance: AxiosInstance;
 
   public static init () {
+    const { baseURL, timeout } = Request;
+
     // 创建axios实例
     this.axiosInstance = axios.create({
-      baseURL: 'localhost:3000',
-      timeout: 6000
+      baseURL,
+      timeout,
     });
+
     // 初始化拦截器
     this.initInterceptors();
+
     return axios;
   }
 
   // 初始化拦截器
   public static initInterceptors () {
+    const {
+      reqOk,
+      reqError,
+      respOk,
+      respError,
+    } = Request;
+
     // 设置post请求头
-    this.axiosInstance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-    /**
-     * 请求拦截器
-     * 每次请求前，如果存在token则在请求头中携带token
-     */
-    this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
+    this.axiosInstance.defaults.headers.post['Content-Type'] = Request.contentType;
 
-      // const token = Vue.ls.get(ACCESS_TOKEN)
-      // if (token) {
-      //     config.headers['Authorization'] = 'Bearer ' + token
-      // }
-
-      // 登录流程控制中，根据本地是否存在token判断用户的登录情况
-      // 但是即使token存在，也有可能token是过期的，所以在每次的请求头中携带token
-      // 后台根据携带的token判断用户的登录情况，并返回给我们对应的状态码
-      // if (config.headers.isJwt) {
-      const token = localStorage.getItem('ACCESS_TOKEN');
-      if (token) {
-        // @ts-ignore
-        config.headers.Authorization = 'Bearer ' + token;
-      }
-      // }
-      return config;
-    },
-    (error: any) => {
-      console.log(error);
-    },);
-
+    // 请求拦截器
+    this.axiosInstance.interceptors.request.use(respOk, respError);
 
     // 响应拦截器
-    this.axiosInstance.interceptors.response.use(
-      // 请求成功
-      (response: AxiosResponse) => {
-        if (response.status === 200) {
-          return Promise.resolve(response.data);
-          // return response;
-        } else {
-          Request.errorHandle(response);
-          return Promise.reject(response.data);
-          // return response;
-        }
-      },
-      // 请求失败
-      (error: any) => {
-        const { response } = error;
-        if (response) {
-          // 请求已发出，但是不在2xx的范围
-          Request.errorHandle(response);
-          return Promise.reject(response.data);
-        } else {
-          // 处理断网的情况
-          // eg:请求超时或断网时，更新state的network状态
-          // network状态在app.vue中控制着一个全局的断网提示组件的显示隐藏
-          // 关于断网组件中的刷新重新获取数据，会在断网组件中说明
-          message.warn('网络连接异常,请稍后再试!');
-        }
-      });
+    this.axiosInstance.interceptors.response.use(reqOk, reqError);
   }
 
+  /**
+   * 请求发送成功
+   * @param config 请求配置
+   * @returns
+   */
+  private static respOk (config: AxiosRequestConfig){
+    return config;
+  }
+
+  /**
+   * 请求发送失败
+   * @param config 请求配置
+   * @returns
+   */
+  private static respError (error: any){
+    console.log(error);
+    message.warn('拦截器发生异常');
+  }
+
+  /**
+   * 响应成功
+   * @param response 响应回调
+   * @returns
+   */
+  private static reqOk (response: AxiosResponse){
+    const { data }:{data:responseBase} = response;
+    if (response.status !== 200) {
+      Request.errorHandle(response);
+      return Promise.reject(data);
+    }
+    if (data.code !== 0) message.error(data.msg);
+    return Promise.resolve(data);
+  }
+
+  /**
+   * 响应错误
+   * @param error 响应错误
+   */
+  private static reqError (error: any){
+    const { response } = error;
+    if (response) {
+      // 请求已发出，但是不在2xx的范围
+      Request.errorHandle(response);
+      // return Promise.reject(response.data);
+    } else {
+      message.warn('网络连接异常,请稍后再试!');
+    }
+  }
 
   /**
    * http握手错误
    * @param res 响应回调,根据不同响应进行不同操作
    */
-  private static errorHandle (res: any) {
+  public static errorHandle (res: any) {
     // 状态码判断
     switch (res.status) {
     case 401:
+      message.warn('账号未登录,请重新登录!');
       break;
     case 403:
       break;

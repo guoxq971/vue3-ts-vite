@@ -1,94 +1,57 @@
 <template>
-  <div class="login-container">
-    <div class="content">
-      <a-card title="欢迎登陆CX工作流设计器" style="width: 100%;height: 100%">
-        <a-form  :model="loginForm" @submit="handleSubmit"><!--@submit.native.prevent-->
-          <a-form-item>
-            <a-input v-model:value="loginForm.account" placeholder="account" style="width: 350px" >
-              <template #prefix><UserOutlined style="color:rgba(0,0,0,.25)"/></template>
-            </a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-input v-model:value="loginForm.password" type="password" placeholder="Password" style="width: 350px">
-              <template #prefix><LockOutlined style="color:rgba(0,0,0,.25)"/></template>
-            </a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-button type="primary" html-type="submit" :disabled="loginForm.account === '' || loginForm.password === ''" style="width: 350px">
-              登陆
-            </a-button>
-          </a-form-item>
-        </a-form>
-      </a-card>
-    </div>
+  <div>
+    axios测试 <br>
+    <a-button @click="handlerClick">点击</a-button>
+    <br>
+    <a-table
+      size="small"
+      :scroll="{y:200}"
+      bordered
+      :dataSource="dataSource"
+      :columns="columns"
+      :pagination="false"
+    >
+      <template #bodyCell="{column}">
+        <template v-if="column.dataIndex === 'cz'">
+          <a-button type="link">测试</a-button>
+          <a-button type="link">测试2</a-button>
+          <a-button type="link">测试3</a-button>
+        </template>
+      </template>
+    </a-table>
   </div>
 </template>
 
-<script lang="ts">
-// import '../../reset.less';
-// import '../../global.css';
-import { defineComponent, reactive } from 'vue';
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-// import { login } from '@/api/modular/auth';
-
-import { useRouter } from 'vue-router';
+<script lang='ts'>
+import { defineComponent, Ref, ref } from 'vue';
+import { test, test2 } from '@/views/test2/pack/testService';
+import { test2Interface } from './pack/test4service4interface';
 
 export default defineComponent({
-  name: 'index',
-  components: {
-    UserOutlined,
-    LockOutlined,
-  },
-  setup (){
-    const loginForm = reactive({
-      account: '',
-      password: ''
-    });
-    const router = useRouter();
-
-    const handleSubmit = (e: Event)=> {
-      const param = {
-        account: loginForm.account,
-        password: loginForm.password
-      };
-      // login(param).then(response => {
-      //   const res: any = response.data;
-      //   if (res.code === 200){
-      //     localStorage.setItem('ACCESS_TOKEN', res.data);
-      //     router.push('/flow');
-      //   }
-      // });
+  setup () {
+    const columns = [
+      { align: 'center', title: '姓名', dataIndex: 'name' },
+      { align: 'center', title: '创建时间', dataIndex: 'createTime' },
+      { align: 'center', title: '更新时间', dataIndex: 'updateTime' },
+      { align: 'center', title: '操作', dataIndex: 'cz' },
+    ];
+    let dataSource = ref<test2Interface[]>([]);
+    const handlerClick = async () => {
+      let res = await test2();
+      if (res.code !== 0) return;
+      dataSource.value = res.data;
+      console.log(res);
     };
     return {
-      loginForm,
-      handleSubmit
+      handlerClick,
+      dataSource,
+      columns,
     };
   }
 });
+
 </script>
 
-<style lang="scss" scoped>
-  /* 背景 */
-  .login-container {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    //background: url("../../assets/cool-background.png");
-    .content {
-      position: absolute;
-      width:400px;
-      height:300px;
-      left:50%;
-      top:50%;
-      margin-left:-200px;
-      margin-top:-150px;
-
-      border-radius: 10px;
-      background: #f6efef;
-      box-shadow:  5px 5px 10px #626060,
-        -2px -2px 2px #de18ff;
-    }
-  }
-
+<style lang='scss' scoped>
 
 </style>
